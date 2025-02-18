@@ -10,17 +10,46 @@
     .link-item a:hover { text-decoration: underline; }
     .description { color: #555; margin-top: 5px; }
   </style>
+  <script>
+    // Hàm lấy giá trị tham số từ URL
+    function getParameterByName(name, url = window.location.href) {
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    window.onload = function() {
+      // Kiểm tra xem URL có tham số 'alias' không
+      var alias = getParameterByName('alias');
+      if (alias) {
+        // Định nghĩa bảng chuyển hướng cho các alias
+        var redirects = {
+          'link1': 'https://example.com/link1',
+          'link2': 'https://example.com/link2'
+          // Thêm các alias khác tại đây
+        };
+
+        if (redirects[alias]) {
+          // Chuyển hướng nếu tìm thấy alias tương ứng
+          window.location.href = redirects[alias];
+        }
+      }
+    }
+  </script>
 </head>
 <body>
   <h1>Danh Mục Đường Link</h1>
   <div class="link-item">
-    <a href="alias1.html">Alias 1</a>
+    <a href="?alias=link1">Alias 1</a>
     <p class="description">Mô tả: Chuyển hướng đến https://example.com/link1</p>
   </div>
   <div class="link-item">
-    <a href="alias2.html">Alias 2</a>
+    <a href="?alias=link2">Alias 2</a>
     <p class="description">Mô tả: Chuyển hướng đến https://example.com/link2</p>
   </div>
-  <!-- Thêm các mục tương tự khác -->
+  <!-- Bạn có thể thêm nhiều mục khác tương tự -->
 </body>
 </html>
